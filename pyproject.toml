@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "concretopy"
+version = "1.0.0"
+description = "Biblioteca Python para cálculo de estruturas de concreto armado"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Joao Severgnini" }
+]
+license = { text = "MIT" }
+keywords = ["engenharia civil", "concreto armado", "estrutura", "NBR 6118", "python"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/JoaoSevergnini"
+Documentation = "https://github.com/JoaoSevergnini"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["concretopy*"]
