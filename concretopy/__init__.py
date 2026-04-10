@@ -13,6 +13,7 @@ from .api import (
     SecaoPoligonalArmada,
     SecaoRetangular,
     VigaRetangular,
+    definir_arranjo_arm_long_vigas,
 )
 from .exceptions import (
     ArmaduraExistenteInterceptada,
@@ -43,6 +44,7 @@ __all__ = [
     'CalculadoraReforcoFuros',
     'Concreto',
     'ConvergenciaNaoAtingida',
+    'definir_arranjo_arm_long_vigas',
     'ErroConcretopy',
     'ErroDimensionamento',
     'FuroEmZonaComprimida',

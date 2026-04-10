@@ -17,6 +17,7 @@ from .resultados import (
     ResultadoReforcoFuro,
 )
 from .secoes import SecaoPoligonalArmada, SecaoRetangular
+from .detalhamento.arranjos import definir_arranjo_arm_long_vigas
 
 __all__ = [
     'Aco',
@@ -33,4 +34,5 @@ __all__ = [
     'SecaoPoligonalArmada',
     'SecaoRetangular',
     'VigaRetangular',
+    'definir_arranjo_arm_long_vigas'
 ]

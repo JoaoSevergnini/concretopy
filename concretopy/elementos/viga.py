@@ -34,6 +34,14 @@ class VigaRetangular:
     @property
     def secao(self) -> SecaoRetangular:
         return SecaoRetangular(self.bw, self.h, self.cobrimento, self.diametro_estribo_mm)
+    
+    @property
+    def vrd2_kn(self) -> float:
+        return 0.27 * self.concreto.alfa_v2 * (self.concreto.fcd() * 1e-1) *  self.bw * self.secao.d()
+    
+    @property
+    def vrd2_tf(self) -> float:
+        return self.vrd2_kn / 10
 
     def dimensionar_flexao(self, mk: float, diametro_barra_mm: float = 12.5) -> ResultadoFlexao:
         return dimensionar_flexao_viga_retangular(self.secao, self.concreto, self.aco, mk, diametro_barra_mm=diametro_barra_mm)

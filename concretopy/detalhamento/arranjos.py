@@ -116,6 +116,11 @@ class ArranjoArmaduraFlexaoViga(ArranjoArmadura):
     numero_camadas: int
     numero_barras_camada: list[int]
 
+    def to_list(self):
+        lista_camada = list()
+        for camada in range(self.numero_camadas):
+            lista_camada.append(( self.numero_barras_camada[camada], self.armadura.barra.diametro_mm))
+        return lista_camada
 
 @dataclass(frozen=True)
 class ArranjoEstribosViga(ArranjoArmadura):

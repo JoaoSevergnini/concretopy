@@ -478,8 +478,8 @@ class CalculadoraReforcoFuros:
             configuracao_armadura_suspensao=self.cfg_arm_susp,
             avisos=list(self.avisos),
             memorial=memorial,
-            verificacao_dimensoes_norma=self._verificacao_dimensoes_norma,
-            resistencia_biela_equivalente_kn=self._frd_biela_equivalente_kn,
+            verificacao_dimensoes_norma=self._verif_dim_norma(),
+            resistencia_biela_equivalente_kn=self._verif_romp_bielas(),
         )
         return self.resultado
 
