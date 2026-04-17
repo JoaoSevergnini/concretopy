@@ -681,14 +681,15 @@ class CalculadoraReforcoFuros:
         if lh_biela_sup <= 0 and lh_biela_inf <= 0:
             frd_biela = 0.0
         elif lh_biela_inf <= 0 < lh_biela_sup:
-            frd_biela = 0.42 * self.concreto.alfa_v2 * self.concreto.fck / GAMMA_C * 1e-2 * self.viga.bw * l_biela_sup
+            frd_biela = 0.42 * self.concreto.alfa_v2 * self.concreto.fck / GAMMA_C * 1e-1 * self.viga.bw * l_biela_sup
         elif lh_biela_sup <= 0 < lh_biela_inf:
-            frd_biela = 0.42 * self.concreto.alfa_v2 * self.concreto.fck / GAMMA_C * 1e-2 * self.viga.bw * l_biela_inf
+            frd_biela = 0.42 * self.concreto.alfa_v2 * self.concreto.fck / GAMMA_C * 1e-1 * self.viga.bw * l_biela_inf
         else:
-            frd_biela = 0.42 * self.concreto.alfa_v2 * self.concreto.fck / GAMMA_C * 1e-2 * self.viga.bw * (l_biela_sup + l_biela_inf)
+            frd_biela = 0.42 * self.concreto.alfa_v2 * self.concreto.fck / GAMMA_C * 1e-1 * self.viga.bw * (l_biela_sup + l_biela_inf)
 
         if frd_biela != 0 and frd_biela < self.Vk * GAMMA_N * GAMMA_F:
             self.avisos.append("Biela equivalente não resiste aos esforços; calcular reforço.")
+
         return frd_biela
 
     def verificar_furo(self) -> bool:
