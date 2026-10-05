@@ -1,0 +1,284 @@
+{
+  "metodo_referencia": "Decimal, precisao 50, pi literal com 50 algarismos; nao importa concretopy; tensoes MPa convertidas para kN/cm2. Caso A reproduz formulas reais; B-D sinteticos. Cache nao utilizado para gerar esperado.",
+  "gamma_c": 1.4,
+  "gamma_s": 1.15,
+  "gamma_f": 1.4,
+  "fyk": 500,
+  "es": 210000,
+  "tolerancia_relativa": 1e-12,
+  "tolerancia_absoluta": 1e-08,
+  "casos": [
+    {
+      "id": "A_uma_camada",
+      "origem": "VIGAS!I5:J5,K5,L5,I12:I17; entradas reais, formulas reproduzidas",
+      "secao": {
+        "bw": 25,
+        "h": 76,
+        "cobrimento": 2.5,
+        "diametro_estribo_mm": 8
+      },
+      "fck": 40,
+      "camadas": [
+        {
+          "numero_barras": 8,
+          "diametro_mm": 20,
+          "d_cm": 71.7
+        }
+      ],
+      "esperado": {
+        "as_total_cm2": 25.132741228718345,
+        "as_por_camada_cm2": [
+          25.132741228718345
+        ],
+        "d_equivalente_cm": 71.7,
+        "linha_neutra_cm": 22.497338695783686,
+        "x_sobre_d": 0.31377041416713647,
+        "mrd_kncm": 68515.20127777044,
+        "mk_equivalente_kncm": 48939.42948412174
+      },
+      "hipoteses_validas": true,
+      "ductilidade_atendida": true
+    },
+    {
+      "id": "B_duas_camadas",
+      "origem": "Entradas sinteticas; procedimento VIGAS K5:K7,L5:M7,L12:L17,O12:O17 reproduzido matematicamente sem truncamento ativo",
+      "secao": {
+        "bw": 25,
+        "h": 76,
+        "cobrimento": 2.5,
+        "diametro_estribo_mm": 8
+      },
+      "fck": 40,
+      "camadas": [
+        {
+          "numero_barras": 4,
+          "diametro_mm": 20,
+          "d_cm": 71.7
+        },
+        {
+          "numero_barras": 2,
+          "diametro_mm": 16,
+          "d_cm": 67.9
+        }
+      ],
+      "esperado": {
+        "as_total_cm2": 16.58760921095411,
+        "as_por_camada_cm2": [
+          12.566370614359172,
+          4.0212385965949355
+        ],
+        "d_equivalente_cm": 70.77878787878788,
+        "linha_neutra_cm": 14.848243539217233,
+        "x_sobre_d": 0.20978380647950023,
+        "mrd_kncm": 46762.26648866543,
+        "mk_equivalente_kncm": 33401.61892047531
+      },
+      "hipoteses_validas": true,
+      "ductilidade_atendida": true
+    },
+    {
+      "id": "C_tres_camadas",
+      "origem": "Entradas sinteticas; procedimento VIGAS K5:K7,L5:M7,L12:L17,O12:O17 reproduzido matematicamente sem truncamento ativo",
+      "secao": {
+        "bw": 25,
+        "h": 76,
+        "cobrimento": 2.5,
+        "diametro_estribo_mm": 8
+      },
+      "fck": 40,
+      "camadas": [
+        {
+          "numero_barras": 3,
+          "diametro_mm": 20,
+          "d_cm": 71.7
+        },
+        {
+          "numero_barras": 2,
+          "diametro_mm": 16,
+          "d_cm": 67.9
+        },
+        {
+          "numero_barras": 2,
+          "diametro_mm": 12.5,
+          "d_cm": 64.475
+        }
+      ],
+      "esperado": {
+        "as_total_cm2": 15.900385817981341,
+        "as_por_camada_cm2": [
+          9.42477796076938,
+          4.0212385965949355,
+          2.454369260617026
+        ],
+        "d_equivalente_cm": 69.62372808100766,
+        "linha_neutra_cm": 14.233081934254397,
+        "x_sobre_d": 0.204428609707514,
+        "mrd_kncm": 44196.50177916562,
+        "mk_equivalente_kncm": 31568.92984226116
+      },
+      "hipoteses_validas": true,
+      "ductilidade_atendida": true
+    },
+    {
+      "id": "D_bitola_25",
+      "origem": "Entradas sinteticas; procedimento VIGAS K5:K7,L5:M7,L12:L17,O12:O17 reproduzido matematicamente sem truncamento ativo",
+      "secao": {
+        "bw": 25,
+        "h": 76,
+        "cobrimento": 2.5,
+        "diametro_estribo_mm": 8
+      },
+      "fck": 40,
+      "camadas": [
+        {
+          "numero_barras": 3,
+          "diametro_mm": 16,
+          "d_cm": 71.9
+        },
+        {
+          "numero_barras": 2,
+          "diametro_mm": 25,
+          "d_cm": 67.35
+        }
+      ],
+      "esperado": {
+        "as_total_cm2": 15.849334937360506,
+        "as_por_camada_cm2": [
+          6.031857894892403,
+          9.817477042468104
+        ],
+        "d_equivalente_cm": 69.08161546085233,
+        "linha_neutra_cm": 14.187384215028587,
+        "x_sobre_d": 0.20537134403100918,
+        "mrd_kncm": 43693.626944755946,
+        "mk_equivalente_kncm": 31209.733531968533
+      },
+      "hipoteses_validas": true,
+      "ductilidade_atendida": true
+    },
+    {
+      "id": "E_abaixo_limite",
+      "origem": "Equilibrio analitico independente, Decimal 50 digitos; d escolhido para x/d alvo",
+      "secao": {
+        "bw": 20,
+        "h": 50,
+        "cobrimento": 3,
+        "diametro_estribo_mm": 5
+      },
+      "fck": 30,
+      "camadas": [
+        {
+          "numero_barras": 4,
+          "diametro_mm": 20,
+          "d_cm": 41.75452616143966
+        }
+      ],
+      "esperado": {
+        "as_total_cm2": 12.566370614359172,
+        "as_por_camada_cm2": [
+          12.566370614359172
+        ],
+        "d_equivalente_cm": 41.75452616143966,
+        "linha_neutra_cm": 18.747782246486405,
+        "x_sobre_d": 0.449,
+        "mrd_kncm": 18715.922548215047,
+        "mk_equivalente_kncm": 13368.51610586789
+      },
+      "hipoteses_validas": true,
+      "ductilidade_atendida": true
+    },
+    {
+      "id": "E_no_limite",
+      "origem": "Equilibrio analitico independente, Decimal 50 digitos; d escolhido para x/d alvo",
+      "secao": {
+        "bw": 20,
+        "h": 50,
+        "cobrimento": 3,
+        "diametro_estribo_mm": 5
+      },
+      "fck": 30,
+      "camadas": [
+        {
+          "numero_barras": 4,
+          "diametro_mm": 20,
+          "d_cm": 41.66173832552534
+        }
+      ],
+      "esperado": {
+        "as_total_cm2": 12.566370614359172,
+        "as_por_camada_cm2": [
+          12.566370614359172
+        ],
+        "d_equivalente_cm": 41.66173832552534,
+        "linha_neutra_cm": 18.747782246486405,
+        "x_sobre_d": 0.45,
+        "mrd_kncm": 18665.226620623587,
+        "mk_equivalente_kncm": 13332.304729016847
+      },
+      "hipoteses_validas": true,
+      "ductilidade_atendida": true
+    },
+    {
+      "id": "E_acima_limite",
+      "origem": "Equilibrio analitico independente, Decimal 50 digitos; d escolhido para x/d alvo",
+      "secao": {
+        "bw": 20,
+        "h": 50,
+        "cobrimento": 3,
+        "diametro_estribo_mm": 5
+      },
+      "fck": 30,
+      "camadas": [
+        {
+          "numero_barras": 4,
+          "diametro_mm": 20,
+          "d_cm": 41.569361965601786
+        }
+      ],
+      "esperado": {
+        "as_total_cm2": 12.566370614359172,
+        "as_por_camada_cm2": [
+          12.566370614359172
+        ],
+        "d_equivalente_cm": 41.569361965601786,
+        "linha_neutra_cm": 18.747782246486405,
+        "x_sobre_d": 0.451,
+        "mrd_kncm": 18614.755508675546,
+        "mk_equivalente_kncm": 13296.253934768249
+      },
+      "hipoteses_validas": true,
+      "ductilidade_atendida": false
+    },
+    {
+      "id": "F_sem_escoamento",
+      "origem": "Equilibrio candidato com aco escoado, Decimal 50 digitos; epsilon=0.0035*(45-x)/x < fyd/Es: MRd indisponivel",
+      "secao": {
+        "bw": 30,
+        "h": 50,
+        "cobrimento": 3,
+        "diametro_estribo_mm": 5
+      },
+      "fck": 20,
+      "camadas": [
+        {
+          "numero_barras": 6,
+          "diametro_mm": 25,
+          "d_cm": 45
+        }
+      ],
+      "esperado": {
+        "as_total_cm2": 29.45243112740431,
+        "as_por_camada_cm2": [
+          29.45243112740431
+        ],
+        "d_equivalente_cm": 45,
+        "linha_neutra_cm": 43.94011464020251,
+        "x_sobre_d": 0.9764469920045002,
+        "mrd_kncm": null,
+        "mk_equivalente_kncm": null
+      },
+      "hipoteses_validas": false,
+      "ductilidade_atendida": null
+    }
+  ]
+}

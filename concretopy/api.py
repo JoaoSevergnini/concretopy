@@ -6,33 +6,39 @@ considerados internos ou sujeitos a revisão.
 """
 
 from .aplicacoes.calculadora_furos import CalculadoraReforcoFuros, FuroRetangular
-from .armaduras import Barra, BarraPosicionada
+from .armaduras import Barra, BarraPosicionada, CamadaArmaduraLongitudinal
 from .elementos.pilar import PilarPoligonal
 from .elementos.viga import VigaRetangular
 from .materiais import Aco, Concreto
 from .resultados import (
     ResultadoCortante,
     ResultadoFlexao,
+    ResultadoVerificacaoFlexao,
     ResultadoFlexoCompressao,
     ResultadoReforcoFuro,
 )
 from .secoes import SecaoPoligonalArmada, SecaoRetangular
 from .detalhamento.arranjos import definir_arranjo_arm_long_vigas
+from .verificacoes.flexao import calcular_alturas_uteis_camadas, verificar_flexao_viga_retangular
 
 __all__ = [
     'Aco',
     'Barra',
     'BarraPosicionada',
+    'CamadaArmaduraLongitudinal',
     'CalculadoraReforcoFuros',
     'Concreto',
     'FuroRetangular',
     'PilarPoligonal',
     'ResultadoCortante',
     'ResultadoFlexao',
+    'ResultadoVerificacaoFlexao',
     'ResultadoFlexoCompressao',
     'ResultadoReforcoFuro',
     'SecaoPoligonalArmada',
     'SecaoRetangular',
     'VigaRetangular',
-    'definir_arranjo_arm_long_vigas'
+    'definir_arranjo_arm_long_vigas',
+    'verificar_flexao_viga_retangular',
+    'calcular_alturas_uteis_camadas',
 ]

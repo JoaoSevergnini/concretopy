@@ -45,6 +45,44 @@ res_flex = viga.dimensionar_flexao(mk=18000)  # kN.cm
 res_cort = viga.dimensionar_cortante(vk=120)  # kN
 ```
 
+## Resistência de uma viga com armadura conhecida
+
+```python
+from concretopy import (
+    Aco, Barra, CamadaArmaduraLongitudinal, Concreto, SecaoRetangular,
+    verificar_flexao_viga_retangular,
+)
+
+resultado = verificar_flexao_viga_retangular(
+    SecaoRetangular(bw=20, h=50, cobrimento=3),
+    Concreto(30), Aco(500),
+    [CamadaArmaduraLongitudinal(numero_barras=2, barra=Barra(16), d_cm=45)],
+    gamma_f=1.4,  # opcional: Mk equivalente = MRd / gamma_f
+    verificar_armadura_minima=True,
+)
+print(resultado.mrd_kncm)  # resistência de cálculo em kN.cm
+print(resultado.ductilidade_atendida, resultado.armadura_minima_atendida)
+```
+
+`d_cm` é a distância da face comprimida ao centro de cada camada. Quando
+omitido (`CamadaArmaduraLongitudinal(2, Barra(16))`), é calculado pelo critério
+da aba VIGAS: primeira camada junto à face tracionada; seguintes com vão livre
+de 2 cm se a bitola atual for menor que 25 mm, ou uma bitola atual em cm nos
+demais casos. Informe as camadas da face tracionada para a comprimida quando
+houver posições omitidas. Valores explícitos são preservados e servem de
+referência para a próxima camada. A função pública
+`calcular_alturas_uteis_camadas(secao, camadas)` retorna essas alturas em cm.
+
+O modelo
+usa bloco retangular e exige que todas as camadas tracionadas escoem. Se essa
+hipótese falhar, `hipoteses_validas=False` e `mrd_kncm=None`, com diagnósticos
+em `avisos`. Ductilidade e armadura mínima são verificações separadas;
+nenhum desses campos representa aprovação global do detalhamento. Não há
+dimensionamento de armadura nova nem truncamento da linha neutra.
+
+Procedimento, referências numéricas e limites:
+`.codex/analises/flexure_resistance_implementation.md`.
+
 ## Entrada legada em tf / tf.m
 
 ```python
