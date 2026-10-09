@@ -1,4 +1,9 @@
 from .api import (
+    verificar_ancoragem_positiva_apoio,
+    calcular_armadura_positiva_apoio,
+    calcular_al,
+    CondicoesAncoragem,
+    calcular_ancoragem,
     Aco,
     Barra,
     BarraPosicionada,
@@ -7,6 +12,10 @@ from .api import (
     Concreto,
     FuroRetangular,
     PilarPoligonal,
+    ResultadoArmaduraApoio,
+    ResultadoDecalagemAl,
+    ResultadoVerificacaoAncoragemApoio,
+    ResultadoAncoragem,
     ResultadoCortante,
     ResultadoFlexao,
     ResultadoVerificacaoFlexao,
@@ -41,6 +50,15 @@ from .unidades import (
 )
 
 __all__ = [
+    'verificar_ancoragem_positiva_apoio',
+    'ResultadoVerificacaoAncoragemApoio',
+    'calcular_armadura_positiva_apoio',
+    'ResultadoArmaduraApoio',
+    'calcular_al',
+    'ResultadoDecalagemAl',
+    'CondicoesAncoragem',
+    'ResultadoAncoragem',
+    'calcular_ancoragem',
     'Aco',
     'ArmaduraExistenteInterceptada',
     'Barra',

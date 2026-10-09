@@ -3,10 +3,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from ..materiais import Aco, Concreto
-from ..resultados import ResultadoCortante, ResultadoFlexao
+from ..resultados import ResultadoCortante, ResultadoDecalagemAl, ResultadoFlexao
 from ..secoes import SecaoRetangular
 from ..unidades import tf_para_kn, tfm_para_kncm
 from ..verificacoes.cortante import dimensionar_cortante_viga
+from ..verificacoes.decalagem import calcular_al
 from ..verificacoes.flexao import dimensionar_flexao_viga_retangular
 
 
@@ -48,6 +49,39 @@ class VigaRetangular:
 
     def dimensionar_cortante(self, vk: float, alfa_graus: float = 90.0, diametro_barra_mm: float = 12.5, nk: float = 0, mk: float = 0) -> ResultadoCortante:
         return dimensionar_cortante_viga(self.secao, self.concreto, self.aco, vk, alfa_graus=alfa_graus, nk=nk, mk=mk, diametro_barra_mm=diametro_barra_mm)
+
+    def calcular_decalagem(
+        self,
+        *,
+        vk_abs_kn: float,
+        d_cm: float,
+        gamma_f: float = 1.4,
+        gamma_c: float = 1.4,
+    ) -> ResultadoDecalagemAl:
+        """Calcula a decalagem usando o concreto e a largura bw desta viga.
+
+        vk_abs_kn : float
+            Magnitude caracteristica do cortante em kN, finita e >= 0.
+            Selecionada pelo chamador; negativos nao sao convertidos em modulo.
+        d_cm : float
+            Altura util em cm, finita e positiva, obrigatoriamente informada.
+            Nao infere camada, centroide ou bitola padrao.
+        gamma_f, gamma_c : float
+            Coeficientes adimensionais, finitos e positivos, de majoracao do
+            cortante e minoracao da resistencia do concreto, respectivamente.
+
+        Returns
+        -------
+        ResultadoDecalagemAl
+            al_base, limites e al em cm, resistencias em MPa e forcas em kN.
+            Delega integralmente a calcular_al, inclusive suas validacoes.
+            Hipoteses: estribos verticais e Vc=Vc0. Nao verifica Vrd2,
+            ancoragem ou corte de barras, nem soma al a lb/lb_nec.
+        """
+        return calcular_al(
+            concreto=self.concreto, b_cm=self.bw, d_cm=d_cm,
+            vk_abs_kn=vk_abs_kn, gamma_f=gamma_f, gamma_c=gamma_c,
+        )
 
     def dimensionar_flexao_tfm(self, mk_tfm: float, diametro_barra_mm: float = 12.5, aproximado: bool = True) -> ResultadoFlexao:
         return self.dimensionar_flexao(tfm_para_kncm(mk_tfm, aproximado=aproximado), diametro_barra_mm=diametro_barra_mm)

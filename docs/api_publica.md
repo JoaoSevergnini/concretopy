@@ -81,3 +81,58 @@ global, ancoragem, cisalhamento ou integração com assistente nessa função.
 ## Regra prática
 Tudo que estiver fora dessa lista pode continuar sendo utilizado pelos
 submódulos, mas não deve ser considerado congelado para a versão `1.x`.
+
+## Ancoragem
+
+- `CondicoesAncoragem(boa_aderencia=...)`
+- `ResultadoAncoragem`
+- `calcular_ancoragem(concreto, aco, bitola_mm, as_calculada_cm2,
+  as_efetiva_cm2, *, condicoes, comprimento_disponivel_cm=None,
+  gamma_c=1.4, gamma_s=1.15)`
+
+Disponiveis em `concretopy` e `concretopy.api`. Barras nervuradas tracionadas,
+retas e sem gancho; aderencia informada obrigatoriamente pelo usuario.
+Resistencias em MPa, bitola em mm, areas em cm2 e comprimentos em cm.
+Veja [regras, hipoteses, validacoes e exemplo](ancoragem.md).
+
+## Decalagem longitudinal
+
+- `calcular_al(*, concreto, b_cm, d_cm, vk_abs_kn, gamma_f=1.4, gamma_c=1.4)`
+- `ResultadoDecalagemAl`
+
+Disponiveis em `concretopy` e `concretopy.api`. Magnitude caracteristica de
+cortante em kN e d explicito em cm. Retorna al_base e al limitado em cm;
+nao seleciona esforcos nem compoe comprimentos de ancoragem.
+Hipoteses e unidades em [ancoragem e decalagem](ancoragem.md).
+
+Tambem disponivel como `VigaRetangular.calcular_decalagem(*, vk_abs_kn,
+d_cm, gamma_f=1.4, gamma_c=1.4)`, usando o concreto e bw da viga, com d
+obrigatorio e o mesmo ResultadoDecalagemAl da funcao pura.
+
+## Demanda positiva no apoio
+
+- `calcular_armadura_positiva_apoio(...)`
+- `ResultadoArmaduraApoio`
+
+Disponiveis em `concretopy`, `concretopy.api` e, para a funcao, em
+`concretopy.verificacoes`. Condicoes A/B/C com camadas reais do apoio,
+d do vao explicito e secao do vao opcional. Retorna demanda em cm2, sem
+aprovar armadura detalhada ou ancoragem. Veja [contrato, hipoteses e exemplo](armadura_apoio.md).
+
+
+## Apoio: um par de esforcos e ancoragem independente
+
+`calcular_armadura_positiva_apoio` recebe `mk_apoio_kncm` e `vk_apoio_kn`
+caracteristicos, nao negativos, para uma unica chamada. Os antigos argumentos
+maximo/minimo e resultados de estados internos foram removidos deliberadamente.
+Veja [armadura no apoio](armadura_apoio.md).
+
+A raiz e `concretopy.api` exportam `verificar_ancoragem_positiva_apoio` e
+`ResultadoVerificacaoAncoragemApoio`. Essa verificacao recebe diretamente o
+comprimento disponivel, a demanda e area efetiva (cm2), bitola (mm), aderencia
+e gancho previamente validado pelo chamador. Veja [ancoragem](ancoragem.md).
+`calcular_ancoragem` e `calcular_al` permanecem independentes e inalterados.
+
+## Componentes aditivos do resultado de cortante
+
+`dimensionar_cortante_viga` conserva assinatura e `ResultadoCortante(asw_por_s, vc, vrd2)`. Retorna adicionalmente `asw_por_s_calculado` (cm²/m): parcela de cortante antes da governância do mínimo, limitada inferiormente a zero, e `asw_por_s_minimo` (cm²/m). `asw_por_s` permanece governante com o comportamento anterior. Os novos campos são opcionais na construção direta e não participam da comparação dos três valores legados. `dataclasses.asdict` os inclui como campos adicionais. Não substituem controles de biela/espaçamento ou verificações geométricas. A exposição não altera critérios resistentes/normativos.

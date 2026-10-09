@@ -21,6 +21,9 @@ def dimensionar_flexao_viga_retangular(
     gamma_c: float = 1.4,
     gamma_s: float = 1.15,
     diametro_barra_mm: float = 12.5,
+    *,
+    d_cm: float | None = None,
+    d_linha_cm: float | None = None,
 ) -> ResultadoFlexao:
     """Dimensiona a armadura longitudinal de uma viga retangular.
 
@@ -30,9 +33,28 @@ def dimensionar_flexao_viga_retangular(
     - bitolas em mm
     - momento característico ``mk`` em kN.cm
     - resultado de armadura em cm²
+
+    d_cm : float | None
+        Altura util explicita em cm. Quando omitida, preserva o calculo
+        legado secao.d(diametro_barra_mm). Nao altera a geometria da secao.
+    d_linha_cm : float | None
+        Distancia do centro da armadura comprimida a face comprimida, em cm.
+        Quando omitida, preserva secao.d_linha(diametro_barra_mm).
+        Alturas explicitas devem ser finitas, positivas, internas a secao,
+        respeitar cobrimento/estribo e satisfazer d_linha < d.
+        Geometria explicita incompativel gera TypeError/ValueError.
     """
-    d = secao.d(diametro_barra_mm)
-    d_linha = secao.d_linha(diametro_barra_mm)
+    d = secao.d(diametro_barra_mm) if d_cm is None else d_cm
+    d_linha = secao.d_linha(diametro_barra_mm) if d_linha_cm is None else d_linha_cm
+    if d_cm is not None or d_linha_cm is not None:
+        for nome, valor in (("d_cm", d), ("d_linha_cm", d_linha)):
+            if isinstance(valor, bool) or not isinstance(valor, (int, float)):
+                raise TypeError(f"{nome} deve ser numerico.")
+            if not isfinite(valor) or not 0 < valor < secao.h:
+                raise ValueError(f"{nome} deve ser finito, positivo e interno a secao.")
+        margem = secao.cobrimento + secao.diametro_estribo_mm / 10
+        if not margem < d < secao.h - margem or not margem < d_linha < d:
+            raise ValueError("Alturas explicitas incompativeis com cobrimento/estribo ou d_linha >= d.")
     fcd = concreto.fcd(gamma_c) * 1e-1
     fyd = aco.fyd(gamma_s) * 1e-1
     eyd = aco.ey / gamma_s
@@ -50,6 +72,10 @@ def dimensionar_flexao_viga_retangular(
         acc = y * secao.bw
         e2 = concreto.ecu * (y_limite - concreto.lamb * d_linha) / y_limite
         tensao_arm_sup = e2 * aco.es * 1e-1 if e2 < eyd else fyd
+        if (d_cm is not None or d_linha_cm is not None) and (
+            not isfinite(tensao_arm_sup) or tensao_arm_sup <= 0
+        ):
+            raise ValueError("Posicao da armadura comprimida incompativel com o bloco resistente.")
         as_compressao = (md - md_max) / (tensao_arm_sup * (d - d_linha))
         as_tracao = (concreto.alfa_c * acc * fcd + as_compressao * tensao_arm_sup) / fyd
     else:

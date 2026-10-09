@@ -28,7 +28,9 @@ def dimensionar_cortante_viga(
     - tensões em MPa
     - bitolas em mm
     - força cortante característica ``vk`` em kN
-    - resultado ``asw_por_s`` em cm²/m
+    - resultado ``asw_por_s`` governante em cm²/m
+    - ``asw_por_s_calculado`` antes do mínimo, limitado a zero, em cm²/m
+    - ``asw_por_s_minimo`` separado, em cm²/m
     """
     d = secao.d(diametro_barra_mm)
     dl = secao.d_linha(diametro_barra_mm)
@@ -65,5 +67,8 @@ def dimensionar_cortante_viga(
 
     asw_por_s = ((vsd - vc) / (0.9 * d * fyd * (sin(radians(alfa_graus)) + cos(radians(alfa_graus)))) * 100)
     asw_por_s_min = 0.2 * (concreto.fctm / aco.fyk) * secao.bw * 100
+    asw_por_s_calculado = max(0.0, asw_por_s)
     asw_por_s = max(asw_por_s, asw_por_s_min)
-    return ResultadoCortante(asw_por_s, vc, vrd2)
+    return ResultadoCortante(asw_por_s, vc, vrd2,
+                            asw_por_s_calculado=asw_por_s_calculado,
+                            asw_por_s_minimo=asw_por_s_min)
